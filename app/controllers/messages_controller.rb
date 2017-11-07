@@ -27,6 +27,7 @@ class MessagesController < ApplicationController
 
   # DELETE /messages/:id
   def destroy
+    raise(ExceptionHandler::ForbiddenError, ResponseMessage.forbidden) if @current_user.id != @message.creator.id
     @message.destroy
     head :no_content
   end

@@ -123,10 +123,26 @@ RSpec.describe 'Messages API', type: :request do
 
   # Test suite for DELETE /messages/:id
   describe 'DELETE /messages/:id' do
-    before { delete "/messages/#{message_id}", headers: headers }
 
-    it 'returns status code 204' do
-      expect(response).to have_http_status(204)
+    context 'when the record can be delete' do
+      before { delete "/messages/#{message_id}", headers: headers }
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+
+    context 'when the record could not be deleted by current user' do
+      before { delete "/messages/#{message_id}", headers: another_user_headers }
+
+      it 'returns status code 403' do
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns failure message' do
+        expect(json['message'])
+            .to match(/Forbidden request/)
+      end
     end
   end
 end
