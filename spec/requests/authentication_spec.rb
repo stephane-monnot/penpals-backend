@@ -22,7 +22,16 @@ RSpec.describe 'Authentication', type: :request do
     end
 
     # returns auth token when request is valid
-    context 'when request is invalid' do
+    context 'When request is valid' do
+      before { post '/auth/login', params: valid_credentials, headers: headers }
+
+      it 'returns an authentication token' do
+        expect(json['auth_token']).not_to be_nil
+      end
+    end
+
+    # returns failure message when request is invalid
+    context 'When request is invalid' do
       before { post '/auth/login', params: invalid_credentials, headers: headers }
 
       it 'returns a failure message' do
