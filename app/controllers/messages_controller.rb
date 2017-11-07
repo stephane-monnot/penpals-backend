@@ -3,13 +3,13 @@ class MessagesController < ApplicationController
 
   # GET /messages
   def index
-    @messages = Message.all
+    @messages = current_user.messages
     json_response(@messages)
   end
 
   # POST /messages
   def create
-    @message = Message.create!(message_params)
+    @message = current_user.messages.create!(message_params)
     json_response(@message, :created)
   end
 
@@ -34,7 +34,7 @@ class MessagesController < ApplicationController
 
   def message_params
     # whitelist params
-    params.permit(:title, :content, :created_by)
+    params.permit(:title, :content)
   end
 
   def set_message

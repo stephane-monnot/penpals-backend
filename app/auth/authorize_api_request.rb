@@ -21,7 +21,7 @@ class AuthorizeApiRequest
     # handle user not found
   rescue ActiveRecord::RecordNotFound => e
     # raise custom error
-    raise(ExceptionHandler::InvalidToken, "#{Message.invalid_token} #{e.message}")
+    raise(ExceptionHandler::InvalidToken, "#{ResponseMessage.invalid_token} #{e.message}")
   end
 
   # decode authentification token
@@ -34,6 +34,6 @@ class AuthorizeApiRequest
     if headers['Authorization'].present?
       return headers['Authorization'].split(' ').last
     end
-      raise(ExceptionHandler::MissingToken, Message.missing_token)
+      raise(ExceptionHandler::MissingToken, ResponseMessage.missing_token)
   end
 end
