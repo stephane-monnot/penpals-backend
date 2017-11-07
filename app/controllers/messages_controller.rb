@@ -20,6 +20,7 @@ class MessagesController < ApplicationController
 
   # PUT /messages/:id
   def update
+    raise(ExceptionHandler::ForbiddenError, ResponseMessage.forbidden) if @current_user.id != @message.creator.id
     @message.update(message_params)
     head :no_content
   end

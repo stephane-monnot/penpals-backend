@@ -3,11 +3,15 @@ require 'rails_helper'
 RSpec.describe 'Messages API', type: :request do
   # message owner
   let(:user) { create(:user) }
+  # other test user
+  let(:another_user) { create(:user) }
   # initialize test data
   let!(:messages) { create_list(:message, 10, created_by: user.id) }
   let(:message_id) { messages.first.id }
   # authorize request
   let(:headers) { valid_headers }
+  # authorize request
+  let(:another_user_headers) { valid_headers_of_another_user }
 
   # Test suite for GET /messages
   describe 'GET /messages'  do
@@ -101,6 +105,20 @@ RSpec.describe 'Messages API', type: :request do
         expect(response).to have_http_status(204)
       end
     end
+
+    context 'when the record could not be updated by current user' do
+      before { put "/messages/#{message_id}", params: valid_attributes, headers: another_user_headers }
+
+      it 'returns status code 403' do
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns failure message' do
+        expect(json['message'])
+            .to match(/Forbidden request/)
+      end
+    end
+
   end
 
   # Test suite for DELETE /messages/:id

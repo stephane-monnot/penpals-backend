@@ -19,6 +19,10 @@ class ResponseMessage
     'Unauthorized request'
   end
 
+  def self.forbidden
+    'Forbidden request'
+  end
+
   def self.account_created
     'Account created successfully'
   end
