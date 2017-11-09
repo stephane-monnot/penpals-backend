@@ -16,8 +16,6 @@ services:
      image: postgres:9.4
      environment:
       - POSTGRES_PASSWORD=SecurePasswordPG
-     ports:
-      - "5432:5432"
      volumes:
       - /srv/docker/postgresql:/var/lib/postgresql/data
 
