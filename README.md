@@ -3,8 +3,6 @@
 
 API to manage messages between pen pals.
 
-Things you may want to cover:
-
 ## Installation
 
 ### Requirements
