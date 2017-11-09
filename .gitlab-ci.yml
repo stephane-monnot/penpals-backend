@@ -20,15 +20,13 @@ before_script:
 build:
   stage: build
   script:
-    - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_TEST_IMAGE -t penpalsbackend_web .
+    - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 
 qa:
   stage: qa
   script:
-    - docker-compose run -e "RAILS_ENV=test" web rails db:create
-    - docker-compose run -e "RAILS_ENV=test" web rails db:migrate
-    - docker-compose run -e "RAILS_ENV=test" web rspec
+    - chmod +x ./bin/ci.sh && ./bin/ci.sh
 
 release-image:
   stage: release

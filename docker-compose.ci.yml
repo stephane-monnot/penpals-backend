@@ -1,0 +1,16 @@
+version: '2'
+services:
+  web:
+    build: .
+    image: web
+    #image: "registry.gitlab.nanoka.fr/penpals/backend:${CI_BUILD_REF_SLUG}"
+    volumes:
+      - .:/app
+    links:
+      - postgres
+    environment:
+      - RAILS_ENV=test
+    command:
+      - /bin/bash
+      - -c
+      - rails db:create && rails db:migrate && rspec
