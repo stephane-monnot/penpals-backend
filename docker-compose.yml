@@ -1,0 +1,27 @@
+version: '2'
+services:
+  web:
+     build: .
+     command: bin/rails server --port 3000 --binding 0.0.0.0
+     ports:
+      - "3000:3000"
+     volumes:
+      - .:/app
+     volumes_from:
+      - bundle
+     links:
+      - postgres
+
+  postgres:
+     image: postgres:9.4
+     environment:
+      - POSTGRES_PASSWORD=SecurePasswordPG
+     ports:
+      - "5432:5432"
+     volumes:
+      - /srv/docker/postgresql:/var/lib/postgresql/data
+
+  bundle:
+    image: penpalsbackend_web
+    volumes:
+      - /tmp/bundle:/bundle
