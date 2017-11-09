@@ -11,13 +11,6 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.gitlab.nanoka.fr/penpals/backend:$CI_BUILD_REF_SLUG
   CONTAINER_RELEASE_IMAGE: registry.gitlab.nanoka.fr/penpals/backend:latest
-  DOCKER_DRIVER: overlay
-
-cache:
-  key: ${CI_BUILD_REF_SLUG}
-  paths:
-    - images/
-  untracked: true
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.nanoka.fr
@@ -26,11 +19,8 @@ before_script:
 build:
   stage: build
   script:
-    - mkdir -p $CI_PROJECT_DIR/images/
-    - docker load -i $CI_PROJECT_DIR/images/latest.tar || docker pull $CONTAINER_RELEASE_IMAGE || true
     - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
-    - docker save -o $CI_PROJECT_DIR/images/latest.tar $CONTAINER_TEST_IMAGE
 
 qa:
   stage: qa
