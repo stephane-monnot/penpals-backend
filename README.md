@@ -1,24 +1,30 @@
-# README
+# Pen pals API Backend
+[![Build Status](https://travis-ci.org/stephane-monnot/penpals-backend.svg?branch=master)](https://travis-ci.org/stephane-monnot/penpals-backend)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API to manage messages between pen pals.
 
 Things you may want to cover:
 
-* Ruby version
+## Installation
 
-* System dependencies
+### Requirements
+This project is based on Docker container. To start using them, you have to make sure Docker Engine and Docker compose 
+tool are installed.
 
-* Configuration
+### Build the project
+```bash
+$ docker-compose build
+$ docker-compose run web bundle
+$ docker-compose run web rails db:create
+$ docker-compose run web rails db:migrate
+```
 
-* Database creation
+### Start the server
+```bash
+$ docker-compose up
+```
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## How to run the test suite
+```bash
+$ docker-compose run -e "RAILS_ENV=test" web rspec
+```
