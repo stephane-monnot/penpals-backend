@@ -13,8 +13,4 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 script:
-  - docker-compose build
-  - docker-compose run web bundle
-  - docker-compose run -e "RAILS_ENV=test" web rails db:create
-  - docker-compose run -e "RAILS_ENV=test" web rails db:migrate
-  - docker-compose run -e "RAILS_ENV=test" web rspec
+    - chmod +x ./bin/ci.sh && ./bin/ci.sh
