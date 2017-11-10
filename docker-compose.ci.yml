@@ -1,8 +1,7 @@
 version: '2'
 services:
   web:
-    build: .
-    image: penpalsbackend_web
+    image: "registry.gitlab.nanoka.fr/penpals/backend:${CI_BUILD_REF_SLUG}"
     volumes:
       - .:/app
     links:
