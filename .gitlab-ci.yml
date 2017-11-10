@@ -20,7 +20,7 @@ before_script:
 build:
   stage: build
   script:
-    - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_TEST_IMAGE .
+    - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 
 qa:
