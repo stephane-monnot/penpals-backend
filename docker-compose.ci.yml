@@ -6,6 +6,9 @@ services:
     environment:
       - RAILS_ENV=test
     command:
-      - /bin/bash
-      - -c
-      - ./wait-for-postgres.sh postgres && rails db:create && rails db:migrate && rspec
+      - /app/wait-for-postgres.sh
+      - postgres
+
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=SecurePasswordPG

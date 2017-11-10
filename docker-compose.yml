@@ -4,10 +4,9 @@ services:
     build: .
     image: penpalsbackend_web
     command:
-      - ./wait-for-postgres.sh postgres
+      - /app/wait-for-postgres.sh
+      - postgres
       - bin/rails server --port 3000 --binding 0.0.0.0
-    ports:
-      - "3000:3000"
     depends_on:
       - "postgres"
     volumes:
@@ -17,7 +16,5 @@ services:
 
   postgres:
     image: postgres:9.4
-    environment:
-      - POSTGRES_PASSWORD=SecurePasswordPG
     volumes:
       - /srv/docker/postgresql:/var/lib/postgresql/data
