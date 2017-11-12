@@ -4,6 +4,7 @@ stages:
   - build
   - qa
   - release
+  - deploy
 
 variables:
   CONTAINER_TEST_IMAGE: registry.gitlab.nanoka.fr/penpals/backend:$CI_BUILD_REF_SLUG
@@ -31,5 +32,15 @@ release-image:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
+
+deploy_staging:
+  stage: deploy
+  environment:
+    name: staging
+    url: https://api.penpals.nanoka.fr/
+  script:
+    - chmod +x ./bin/deploy_staging.sh && ./bin/deploy_staging.sh
   only:
     - master
